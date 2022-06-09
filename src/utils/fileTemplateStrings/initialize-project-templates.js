@@ -46,7 +46,7 @@ module.exports = {
 const indexFileTemplate = `
 const APP_PORT = process.env.PORT || 5005;
 const { app, APPS } = require("./src/config/app");
-const { syncTables, authenticate } = require("./config/db.config");
+const { syncTables, authenticate } = require("./src/config/db.config");
 
 app.listen(APP_PORT, () => {
     try{

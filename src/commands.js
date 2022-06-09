@@ -14,7 +14,7 @@ class Commands {
 	}
 
 	startApp(appName) {
-		decoratedLog("Flowex cli", "starting new app " + appName);
+		decoratedLog("Flowex cli", `New app ${appName} ready!`);
 		const appDir = path.join(this.baseDir, "src", "apps", appName);
 		const controllerClassName = (
 			appName.charAt(0).toUpperCase() + appName.slice(1)
@@ -36,7 +36,7 @@ class Commands {
 	}
 
 	startProject(projectName) {
-		decoratedLog("Flowex cli", "starting project " + projectName);
+		decoratedLog("Flowex cli", `New project ${projectName} ready!`);
 		const cmd = process.platform === "win32" ? "cmd" : "npm";
 		const args =
 			process.platform === "win32" ? ["/c", "npm init"] : ["init"];
@@ -53,7 +53,7 @@ class Commands {
 			cwd: projectPath,
 			stdio: "inherit",
 		});
-		execSync("npm install express sequelize flow-express", {
+		execSync("npm install express sequelize flow-express sqlite3", {
 			cwd: projectPath,
 		});
 		fs.writeFileSync(
