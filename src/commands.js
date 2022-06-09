@@ -30,7 +30,7 @@ class Commands {
 			routerTemplate(controllerClassName, appName),
 		);
 		fs.writeFileSync(
-			`${appDir}/model.js`,
+			`${appDir}/models.js`,
 			modelTemplate(controllerClassName),
 		);
 	}

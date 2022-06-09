@@ -8,8 +8,8 @@ const APPS = [
    //Include your apps with name 
 ]
 
-for(const app of APPS){
-    const router = require(\`../src/apps/\${app}/router.js\`);
+for(const appName of APPS){
+    const router = require(\`../apps/\${appName}/router.js\`);
     app.use(router.getRouter())
 }
 
