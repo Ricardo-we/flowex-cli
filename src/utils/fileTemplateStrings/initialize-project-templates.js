@@ -1,16 +1,20 @@
 const appTemplate = `
 const express = require("express");
 const app = express();
+const cors = require("cors");
 
 app.use(express.json());
+app.use(cors());
 
 const APPS = [
    //Include your apps with name 
 ]
 
-for(const appName of APPS){
-    const router = require(\`../apps/\${appName}/router.js\`);
-    app.use(router.getRouter())
+for (const appData of APPS) {
+	if (typeof appData === "string") {
+		const router = require(\`../apps/\${appData}/router.js\`);
+		app.use(router.getRouter());
+	}
 }
 
 module.exports = {
@@ -50,7 +54,17 @@ const { syncTables, authenticate } = require("./src/config/db.config");
 
 app.listen(APP_PORT, () => {
     try{
-        const models = APPS.map(app => require(\`./src/apps/\${app}/models.js\`));
+        let models = [];
+
+		for (const app of APPS) {
+			const appName = typeof app === "object" ? app?.name : app;
+			const model = Object.values(
+				require(\`./src/apps/\${appName}/models.js\`),
+			);
+			for (const singleModel of model) {
+				models.push(singleModel);
+			}
+		}
         authenticate();
         syncTables(models);
         console.log("Listening on port " + APP_PORT)

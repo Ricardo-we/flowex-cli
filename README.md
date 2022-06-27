@@ -22,3 +22,19 @@ To start an app `flow-express-cli startapp <app-name>`
             |router.js
 ```
 
+## MODELS
+How to sync tables?
+First create an app then register the app if this app not http (websockets for example) you need to specify in apps
+```
+APPS = [
+    "exampleapp",
+    {name: "websocketApp", syncOnly: true}
+]
+```
+
+### EXPORTING MODELS
+For exporting models you always need to put it in an object like this
+```
+module.exports = {model1, model2}
+```
+

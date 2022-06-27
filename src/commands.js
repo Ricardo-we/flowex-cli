@@ -44,6 +44,7 @@ class Commands {
 		const srcPath = path.join(projectPath, "src");
 		const appsPath = path.join(srcPath, "apps");
 		const appConfigPath = path.join(srcPath, "config");
+
 		fs.mkdirSync(projectPath);
 		fs.mkdirSync(srcPath);
 		fs.mkdirSync(appsPath);
@@ -53,7 +54,7 @@ class Commands {
 			cwd: projectPath,
 			stdio: "inherit",
 		});
-		execSync("npm install express sequelize flow-express sqlite3", {
+		execSync("npm install express sequelize flow-express sqlite3 cors", {
 			cwd: projectPath,
 		});
 		fs.writeFileSync(

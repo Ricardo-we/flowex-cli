@@ -8,7 +8,7 @@ const ${appName}Model = sequelize.define("${appName.toLowerCase()}", {
     // Define your model
 });
 
-module.exports =  ${appName}Model;
+module.exports =  { ${appName}Model };
 `;
 
 module.exports = sequelizeModelTemplate;
