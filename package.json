@@ -1,6 +1,6 @@
 {
   "name": "flowex-cli",
-  "version": "1.0.6",
+  "version": "1.1.0",
   "description": "To start a new project `flow-express-cli startproject <project-name>` this will generate a project structure like",
   "main": "index.js",
   "scripts": {
