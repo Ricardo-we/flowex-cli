@@ -51,13 +51,13 @@ const indexFileTemplate = `
 const APP_PORT = process.env.PORT || 5005;
 const { app, APPS } = require("./src/config/app");
 const { syncTables, authenticate } = require("./src/config/db.config");
-const { getAppsModels } = require("flow-express/utils");
+const { getAppsModels } = require("flow-express/utils/model-utils");
 
-app.listen(APP_PORT, () => {
+app.listen(APP_PORT, async () => {
     try{
         const models = getAppsModels(APPS, "./src/apps/"); 
-        authenticate();
-        syncTables(models);
+        await authenticate();
+        await syncTables(models);
         console.log("Listening on port " + APP_PORT)
     } catch(error){
         console.error(error)
