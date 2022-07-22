@@ -36,7 +36,7 @@ const authenticate = async () => {
 
 const syncTables = async (models=[], alter=false, force=false) => {
     for(const model of models){
-        model.sync({alter, force})
+        await model.sync({alter, force})
     }
 }
 
