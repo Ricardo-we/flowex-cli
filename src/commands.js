@@ -7,6 +7,13 @@ const routerTemplate = require("./utils/fileTemplateStrings/router-template");
 const projectInitTemplates = require("./utils/fileTemplateStrings/initialize-project-templates");
 const modelTemplate = require("./utils/fileTemplateStrings/model-template");
 const decoratedLog = require("./utils/decorations/decorated-log");
+const adminViewTemplate = require("./utils/fileTemplateStrings/admin/index-ejs");
+
+// const files = ({}) => [
+// 	{dirName: "",  },
+// 	{dirName: "",  },
+// 	{dirName: "",  },
+// ]
 
 class Commands {
 	constructor(baseDir = __dirname) {
@@ -35,20 +42,39 @@ class Commands {
 		);
 	}
 
+	createFile(dir, filename, content) {
+		return fs.writeFileSync(path.join(dir, filename), content);
+	}
+
 	startProject(projectName) {
 		decoratedLog("Flowex cli", `New project ${projectName} ready!`);
 		const cmd = process.platform === "win32" ? "cmd" : "npm";
 		const args =
 			process.platform === "win32" ? ["/c", "npm init"] : ["init"];
 		const projectPath = path.join(this.baseDir, projectName);
-		const srcPath = path.join(projectPath, "src");
+		// const srcPath = path.join(projectPath, "src");
 		const appsPath = path.join(srcPath, "apps");
 		const appConfigPath = path.join(srcPath, "config");
+		const publicPath = path.join(srcPath, "public");
+		const staticPath = path.join(publicPath, "static");
+		const staticPaths = {
+			js: path.join(staticPath, "js"),
+			css: path.join(staticPath, "css"),
+			templates: path.join(publicPath, "templates"),
+		};
 
+		// BASECONFIG
 		fs.mkdirSync(projectPath);
 		fs.mkdirSync(srcPath);
 		fs.mkdirSync(appsPath);
 		fs.mkdirSync(appConfigPath);
+		// STATIC&TEMPLATES
+		fs.mkdirSync(publicPath);
+		fs.mkdirSync(staticPath);
+		fs.mkdirSync(staticPaths.templates);
+		fs.mkdirSync(staticPaths.js);
+		fs.mkdirSync(staticPaths.css);
+
 		spawnSync(cmd, args, {
 			shell: true,
 			cwd: projectPath,
@@ -57,18 +83,13 @@ class Commands {
 		execSync("npm install express sequelize flow-express sqlite3 cors", {
 			cwd: projectPath,
 		});
-		fs.writeFileSync(
-			path.join(appConfigPath, "app.js"),
-			projectInitTemplates.appTemplate,
-		);
-		fs.writeFileSync(
-			path.join(appConfigPath, "db.config.js"),
-			projectInitTemplates.appDbConfigTemplate,
-		);
-		fs.writeFileSync(
-			path.join(projectPath, "index.js"),
-			projectInitTemplates.indexFileTemplate,
-		);
+		const { appTemplate, appDbConfigTemplate, indexFileTemplate } =
+			projectInitTemplates;
+
+		this.createFile(appConfigPath, "app.js", appTemplate);
+		this.createFile(appConfigPath, "db.config.js", appDbConfigTemplate);
+		this.createFile(projectPath, "index.js", indexFileTemplate);
+		this.createFile(staticPaths.js, "admin.js", adminViewTemplate);
 	}
 }
 
