@@ -8,8 +8,7 @@ const headers = {
 if (!authToken && window.location.pathname === "/admin")
 	window.location.href = "/admin-users";
 
-const errorAlert = (error) =>
-	Swal.fire({
+const errorAlert = (error) => Swal.fire({
 		title: "Something went wrong",
 		text: error,
 		icon: "error",
