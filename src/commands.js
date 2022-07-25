@@ -54,7 +54,6 @@ class Commands {
 	}
 
 	startProject(projectName) {
-		decoratedLog("Flowex cli", `New project ${projectName} ready!`);
 		const cmd = process.platform === "win32" ? "cmd" : "npm";
 		const args =
 			process.platform === "win32" ? ["/c", "npm init"] : ["init"];
@@ -113,6 +112,7 @@ class Commands {
 		);
 		this.createFile(staticPaths.js, "admin.js", adminStaticJsTemplate);
 		this.createFile(staticPaths.js, "form-fields.js", formFieldsJsTemplate);
+		decoratedLog("Flowex cli", `New project ${projectName} ready!`);
 	}
 
 	async createAdmin(username, password) {

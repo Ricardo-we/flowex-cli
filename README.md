@@ -38,3 +38,13 @@ For exporting models you always need to put it in an object like this
 module.exports = {model1, model2}
 ```
 
+## ADMIN
+To use flowex-admin system you need a `AdminUser` to create one place in the root directory and run 
+`npx flowex-cli create-admin <username> <password>`
+For model register you can import admin instance from flow-express
+`const admin = require("flow-express/admin/admin")` and call 
+`await admin.registerModel(model.getTableName(), model);`
+or pass a list of models like this
+`await admin.registerMultipleModels(modelList)`
+the result would be in your admin panel.
+You can check your admin panel going to /admin, use your credentials and login.

@@ -72,13 +72,12 @@ app.listen(APP_PORT, async () => {
 		const models = getAppsModels(APPS, "./src/apps/");
 		await authenticate();
 
+		await syncTables(Object.values(adminModels), reset, false);
+		await syncTables(models, reset, false);
 		await admin.registerMultipleModels([
 			...models,
 			...Object.values(adminModels),
 		]);
-
-		await syncTables(Object.values(adminModels), reset, false);
-		await syncTables(models, reset, false);
 		console.log("Listening on port " + APP_PORT);
 	} catch (error) {
 		console.error(error);
