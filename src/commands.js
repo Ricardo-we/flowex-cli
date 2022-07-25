@@ -79,6 +79,7 @@ class Commands {
 		fs.mkdirSync(publicPath);
 		fs.mkdirSync(staticPath);
 		fs.mkdirSync(staticPaths.templates);
+		fs.mkdirSync(path.join(staticPaths.templates, "admin"));
 		fs.mkdirSync(staticPaths.js);
 		fs.mkdirSync(staticPaths.css);
 
@@ -87,9 +88,12 @@ class Commands {
 			cwd: projectPath,
 			stdio: "inherit",
 		});
-		execSync("npm install express sequelize flow-express sqlite3 cors", {
-			cwd: projectPath,
-		});
+		execSync(
+			"npm install express sequelize flow-express sqlite3 cors jsonwebtoken bcrypt dotenv",
+			{
+				cwd: projectPath,
+			},
+		);
 		const { appTemplate, appDbConfigTemplate, indexFileTemplate } =
 			projectInitTemplates;
 
@@ -97,10 +101,34 @@ class Commands {
 		this.createFile(appConfigPath, "db.config.js", appDbConfigTemplate);
 		this.createFile(projectPath, "index.js", indexFileTemplate);
 
-		this.createFile(staticPaths.templates, "index.ejs", adminViewTemplate);
-		this.createFile(staticPaths.templates, "login.ejs", adminLoginTemplate);
+		this.createFile(
+			path.join(staticPaths.templates, "admin"),
+			"index.ejs",
+			adminViewTemplate,
+		);
+		this.createFile(
+			path.join(staticPaths.templates, "admin"),
+			"login.ejs",
+			adminLoginTemplate,
+		);
 		this.createFile(staticPaths.js, "admin.js", adminStaticJsTemplate);
 		this.createFile(staticPaths.js, "form-fields.js", formFieldsJsTemplate);
+	}
+
+	async createAdmin(username, password) {
+		try {
+			const { AdminUser } = require(path.join(
+				this.baseDir,
+				"node_modules",
+				"flow-express",
+				"admin",
+				"models",
+			));
+			await AdminUser.create({ username, password });
+			console.log("User succesfully created!");
+		} catch (error) {
+			console.error(error);
+		}
 	}
 }
 
@@ -113,6 +141,9 @@ const main = () => {
 			break;
 		case "startapp":
 			commands.startApp(process.argv[3]);
+			break;
+		case "create-admin":
+			commands.createAdmin(process.argv[3], process.argv[4]);
 			break;
 	}
 	return 0;
