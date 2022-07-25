@@ -58,3 +58,4 @@ const login = `
 
     </html>
 `;
+module.exports = login;

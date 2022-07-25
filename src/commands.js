@@ -7,7 +7,11 @@ const routerTemplate = require("./utils/fileTemplateStrings/router-template");
 const projectInitTemplates = require("./utils/fileTemplateStrings/initialize-project-templates");
 const modelTemplate = require("./utils/fileTemplateStrings/model-template");
 const decoratedLog = require("./utils/decorations/decorated-log");
+// ADMIN VIEWS
 const adminViewTemplate = require("./utils/fileTemplateStrings/admin/index-ejs");
+const adminLoginTemplate = require("./utils/fileTemplateStrings/admin/login-ejs");
+const adminStaticJsTemplate = require("./utils/fileTemplateStrings/admin/static/admin");
+const formFieldsJsTemplate = require("./utils/fileTemplateStrings/admin/static/form-fields");
 
 // const files = ({}) => [
 // 	{dirName: "",  },
@@ -28,16 +32,19 @@ class Commands {
 		).replace(/\-/g, "");
 
 		fs.mkdirSync(appDir);
-		fs.writeFileSync(
-			`${appDir}/controller.js`,
+		this.createFile(
+			appDir,
+			"controller.js",
 			controllerTemplate(controllerClassName),
 		);
-		fs.writeFileSync(
-			`${appDir}/router.js`,
+		this.createFile(
+			appDir,
+			"router.js",
 			routerTemplate(controllerClassName, appName),
 		);
-		fs.writeFileSync(
-			`${appDir}/models.js`,
+		this.createFile(
+			appDir,
+			"models.js",
 			modelTemplate(controllerClassName),
 		);
 	}
@@ -89,7 +96,11 @@ class Commands {
 		this.createFile(appConfigPath, "app.js", appTemplate);
 		this.createFile(appConfigPath, "db.config.js", appDbConfigTemplate);
 		this.createFile(projectPath, "index.js", indexFileTemplate);
-		this.createFile(staticPaths.js, "admin.js", adminViewTemplate);
+
+		this.createFile(staticPaths.templates, "index.ejs", adminViewTemplate);
+		this.createFile(staticPaths.templates, "login.ejs", adminLoginTemplate);
+		this.createFile(staticPaths.js, "admin.js", adminStaticJsTemplate);
+		this.createFile(staticPaths.js, "form-fields.js", formFieldsJsTemplate);
 	}
 }
 

@@ -1,29 +1,30 @@
 const formFieldsTemplate = `
-function switchInput({ name, label }) {
+function switchInput({ name, label, value }) {
 	return \`
     <div className="form-group">
         <div class="form-check form-switch">
-            <input name="\${name}" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <input name="\${name}" value="\${value}" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
             <label class="form-check-label" for="flexSwitchCheckDefault">\${label}</label>
         </div>
     </div>
     \`;
 }
 
-function baseInput({ type, name, label }) {
+function baseInput({ type, name, label, value }) {
 	return \`
     <div className="form-group">
         <input 
             class="form-control" 
             name="\${name}" 
             type="\${type}" 
+            value="\${value}"
             placeholder="\${label || name}"
         >
     </div>
-        \`;
+    \`;
 }
 
-function selectInput({ name, options = [{ label: "", value: "" }] }) {
+function selectInput({ name, options = [{ label: "", value: "" }], value }) {
 	let allOptions = "";
 
 	for (const option of options) {
@@ -34,12 +35,13 @@ function selectInput({ name, options = [{ label: "", value: "" }] }) {
 
 	return \`
     <div className="form-group">
-        <select class="form-select" name="\${name}">
+        <select class="form-select" name="\${name}" value="\${value}">
             \${allOptions}
         </select>
     </div>
     \`;
 }
 
-
 `;
+
+module.exports = formFieldsTemplate;
