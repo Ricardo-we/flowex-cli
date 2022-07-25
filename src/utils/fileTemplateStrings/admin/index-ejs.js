@@ -46,7 +46,9 @@ const adminViewTemplate = `
         </nav>
         <% } %>
 
-            <div id="contentContainer" style="overflow-x: auto;" class="container-xl"></div>
+            <div id="contentContainer" style="overflow-x: auto;" class="container-xl">
+               <h2>Welcome to flowex admin!</h2>
+            </div>
             <script src="/js/form-fields.js"></script>
             <script src="/js/admin.js"></script>
 </body>
