@@ -59,7 +59,7 @@ class Commands {
 		const args =
 			process.platform === "win32" ? ["/c", "npm init"] : ["init"];
 		const projectPath = path.join(this.baseDir, projectName);
-		// const srcPath = path.join(projectPath, "src");
+		const srcPath = path.join(projectPath, "src");
 		const appsPath = path.join(srcPath, "apps");
 		const appConfigPath = path.join(srcPath, "config");
 		const publicPath = path.join(srcPath, "public");
