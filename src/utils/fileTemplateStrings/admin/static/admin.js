@@ -184,7 +184,7 @@ function renderModelDetailView({ model, model_name, contentContainerId }) {
 	contentContainer.innerHTML = "";
 	contentContainer.append(
 		renderTable(
-			Object.keys(model.modelDetails),
+			Object.values(model.modelDetails).map((detail) => detail.fieldName),
 			renderTableRows(model, model_name),
 		),
 	);
@@ -213,7 +213,7 @@ const getFieldParentModel = (field, value) => {
 		.then((res) => {
 			const options = res?.modelRecords?.map((option) => ({
 				value: option?.id,
-				label: Object.values(option)[1],
+				label: \`\${field.fieldName}(\${option?.id})\`,
 			}));
 			return selectInput({
 				name: field.fieldName,
