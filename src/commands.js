@@ -50,7 +50,13 @@ class Commands {
 	}
 
 	createFile(dir, filename, content) {
+		if (fs.existsSync(path.join(dir, filename))) return;
 		return fs.writeFileSync(path.join(dir, filename), content);
+	}
+
+	createDir(path) {
+		if (fs.existsSync(path)) return;
+		return fs.mkdirSync(path);
 	}
 
 	startProject(projectName) {
@@ -70,17 +76,17 @@ class Commands {
 		};
 
 		// BASECONFIG
-		fs.mkdirSync(projectPath);
-		fs.mkdirSync(srcPath);
-		fs.mkdirSync(appsPath);
-		fs.mkdirSync(appConfigPath);
+		this.createDir(projectPath);
+		this.createDir(srcPath);
+		this.createDir(appsPath);
+		this.createDir(appConfigPath);
 		// STATIC&TEMPLATES
-		fs.mkdirSync(publicPath);
-		fs.mkdirSync(staticPath);
-		fs.mkdirSync(staticPaths.templates);
-		fs.mkdirSync(path.join(staticPaths.templates, "admin"));
-		fs.mkdirSync(staticPaths.js);
-		fs.mkdirSync(staticPaths.css);
+		this.createDir(publicPath);
+		this.createDir(staticPath);
+		this.createDir(staticPaths.templates);
+		this.createDir(path.join(staticPaths.templates, "admin"));
+		this.createDir(staticPaths.js);
+		this.createDir(staticPaths.css);
 
 		spawnSync(cmd, args, {
 			shell: true,
