@@ -31,7 +31,7 @@ class Commands {
 			appName.charAt(0).toUpperCase() + appName.slice(1)
 		).replace(/\-/g, "");
 
-		fs.mkdirSync(appDir);
+		this.createDir(appDir);
 		this.createFile(
 			appDir,
 			"controller.js",
@@ -59,6 +59,30 @@ class Commands {
 		return fs.mkdirSync(path);
 	}
 
+	createPublicBase({ publicPath, staticPath, staticPaths }) {
+		// STATIC&TEMPLATES
+		this.createDir(publicPath);
+		this.createDir(staticPath);
+		this.createDir(staticPaths.templates);
+		this.createDir(path.join(staticPaths.templates, "admin"));
+		this.createDir(staticPaths.js);
+		this.createDir(staticPaths.css);
+
+		// FILES
+		this.createFile(
+			path.join(staticPaths.templates, "admin"),
+			"index.ejs",
+			adminViewTemplate,
+		);
+		this.createFile(
+			path.join(staticPaths.templates, "admin"),
+			"login.ejs",
+			adminLoginTemplate,
+		);
+		this.createFile(staticPaths.js, "admin.js", adminStaticJsTemplate);
+		this.createFile(staticPaths.js, "form-fields.js", formFieldsJsTemplate);
+	}
+
 	startProject(projectName) {
 		const cmd = process.platform === "win32" ? "cmd" : "npm";
 		const args =
@@ -81,12 +105,7 @@ class Commands {
 		this.createDir(appsPath);
 		this.createDir(appConfigPath);
 		// STATIC&TEMPLATES
-		this.createDir(publicPath);
-		this.createDir(staticPath);
-		this.createDir(staticPaths.templates);
-		this.createDir(path.join(staticPaths.templates, "admin"));
-		this.createDir(staticPaths.js);
-		this.createDir(staticPaths.css);
+		this.createPublicBase({ publicPath, staticPath, staticPaths });
 
 		spawnSync(cmd, args, {
 			shell: true,
@@ -106,18 +125,6 @@ class Commands {
 		this.createFile(appConfigPath, "db.config.js", appDbConfigTemplate);
 		this.createFile(projectPath, "index.js", indexFileTemplate);
 
-		this.createFile(
-			path.join(staticPaths.templates, "admin"),
-			"index.ejs",
-			adminViewTemplate,
-		);
-		this.createFile(
-			path.join(staticPaths.templates, "admin"),
-			"login.ejs",
-			adminLoginTemplate,
-		);
-		this.createFile(staticPaths.js, "admin.js", adminStaticJsTemplate);
-		this.createFile(staticPaths.js, "form-fields.js", formFieldsJsTemplate);
 		decoratedLog("Flowex cli", `New project ${projectName} ready!`);
 	}
 
