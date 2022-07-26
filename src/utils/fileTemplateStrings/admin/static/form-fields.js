@@ -1,15 +1,21 @@
 const formFieldsTemplate = `
-function switchInput({ name, label, value }) {
+function switchInput({ name, label, checked = false }) {
 	return \`
     <div className="form-group">
         <div class="form-check form-switch">
-            <input name="\${name}" value="\${value}" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+            <input 
+                name="\${name}" 
+                value="true" 
+                class="form-check-input" 
+                type="checkbox" 
+                \${checked ? "checked" : ""}  
+                role="switch" 
+            >
             <label class="form-check-label" for="flexSwitchCheckDefault">\${label}</label>
         </div>
     </div>
     \`;
 }
-
 function baseInput({ type, name, label, value }) {
 	return \`
     <div className="form-group">

@@ -264,20 +264,21 @@ function renderForm(
 			formHtml.insertAdjacentHTML(
 				"beforeend",
 				\`
-				<textarea value="\${defaultValues[field.fieldName] || ""}" placeholder="\${
-					field.fieldName
-				}" name="\${
-					field.fieldName
-				}" class="form-control" rows="3"></textarea>
+				<textarea 
+					placeholder="\${field.fieldName}" 
+					name="\${field.fieldName}" 
+					class="form-control" rows="3"
+				>\${defaultValues[field.fieldName] || ""}</textarea>
 			\`,
+			
 			);
 		} else if (fieldType === "BOOLEAN") {
 			formHtml.insertAdjacentHTML(
 				"beforeend",
 				switchInput({
 					name: field.fieldName,
-					value: defaultValues[field.fieldName] || "",
 					label: field.fieldName,
+					checked: defaultValues[field.fieldName],
 				}),
 			);
 		} else {
