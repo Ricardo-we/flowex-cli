@@ -35,7 +35,12 @@ function selectInput({ name, options = [{ label: "", value: "" }], value }) {
 
 	for (const option of options) {
 		allOptions += \`
-            <option value="\${option.value}">\${option.label}</option>
+            <option 
+                \${value === option.value ? "selected" : ""} 
+                value="\${option.value}"
+            >
+                \${option.label}
+            </option>
         \`;
 	}
 
